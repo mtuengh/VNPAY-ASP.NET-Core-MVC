@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using VnPayMvc.Web.Data;
 using VnpayMvc.Web.Config;
 using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<VnPayConfig>(builder.Configuration.GetSection("VnPay"));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
